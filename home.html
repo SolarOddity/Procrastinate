@@ -1,0 +1,203 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block content %}
+<div class="content">
+    <h1>Hello</h1>
+    <p>Click the button to start working!</p>
+    
+    <audio id="mySound">
+        <source src="{{ url_for('static', filename='Starting_Procrastination_mp3.mp3') }}" type="audio/mpeg">
+    </audio>
+
+    <audio id="alarmSound">
+        <source src="{{ url_for('static', filename='alarmSound.mp3') }}" type="audio/mpeg">
+    </audio>
+
+    <button id="start-btn" class="start-btn" onclick="startAction()">START</button>
+    <button id="end-btn" class="end-btn" onclick="endAction()" style="display: none;">END</button>
+
+</div>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Lobster&family=Open+Sans:wght@400;600&display=swap');
+    @keyframes gradientAnimation{
+        0% {
+        background-position: 0% 50%;
+        }
+        50% {
+        background-position: 100% 50%;
+        }
+        100% {
+        background-position: 0% 50%;
+        }
+        
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        height: 100vh;
+        background: linear-gradient(to right, #2F80ED, #56CCF2); 
+        background-size: 400% 400%;
+        animation: gradientAnimation 10s ease infinite;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        position: relative;
+    }
+
+
+    h1 {
+        font-size: 3em;
+        margin-bottom: 20px;
+        font-family: 'Lobster', cursive;
+    }
+
+    p {
+        font-size: 1.5em;
+        margin-bottom: 40px;
+        font-weight: 400;
+        font-family: 'DM Serif Text', serif;
+    }
+    .end-btn {
+        font-size: 20px;
+        padding: 15px 30px;
+        background-color: #FF0000;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: transform 0.3s ease, background-color 0.3s ease;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        margin-left: 20px;
+    }
+
+    .end-btn:hover {
+        background-color: #CC0000;
+        transform: scale(1.1);
+    }
+
+
+    /* Button Styling */
+    .start-btn {
+        font-size: 20px;
+        padding: 15px 30px;
+        background-color: #FF6F61;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: transform 0.3s ease, background-color 0.3s ease;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .start-btn:hover {
+        background-color: #FF4F3D;
+        transform: scale(1.1); 
+    }
+
+    .fade-out {
+        opacity: 0;
+    }
+    
+
+    audio {
+        display: none; 
+    }
+
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: #64cdf0;
+        border-radius: 10px;
+    }
+v
+    ::-webkit-scrollbar-track {
+        background: #2F80ED;
+    }
+</style>
+
+<script>
+    function startAction() {
+        var audio = document.getElementById("mySound");
+        var startButton = document.getElementById("start-btn");
+        var endButton = document.getElementById("end-btn");
+
+        startButton.disabled = true;
+
+        audio.play();  
+        startButton.classList.add("fade-out");
+
+        setTimeout(() => {
+            startButton.style.display = "none"; 
+            endButton.style.display = "inline-block";
+        }, 1000);
+        
+        setTimeout(() => {
+            fetch('/start_procrastination', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => console.log(data.message))
+                .catch(error => console.error("Error:", error));
+        }, 10000);
+    }
+
+
+
+    function endAction() {
+        popups(); 
+    }
+
+    function popups() {
+
+
+        var windowWidth = window.innerWidth;
+        var windowHeight = window.innerHeight;
+        var randomX = Math.floor(Math.random() * (windowWidth - 200)); 
+        var randomY = Math.floor(Math.random() * (windowHeight - 100)); 
+
+        var popup = document.createElement("div");
+        popup.style.position = "fixed";
+        popup.style.top = randomY + "px";  
+        popup.style.left = randomX + "px"; 
+        popup.style.transform = "translate(-50%, -50%)";
+        popup.style.background = "white";
+        popup.style.color = "black";
+        popup.style.padding = "20px";
+        popup.style.border = "2px solid black";
+        popup.style.boxShadow = "0px 4px 6px rgba(0, 0, 0, 0.1)";
+        popup.style.zIndex = "1000";
+        popup.style.textAlign = "center";
+
+        var message = document.createElement("p");
+        message.textContent = "are you sure?";
+        popup.appendChild(message);
+
+        var okButton = document.createElement("button");
+        okButton.textContent = "OK";
+        okButton.style.marginTop = "10px";
+        okButton.style.padding = "10px";
+        okButton.style.background = "red";
+        okButton.style.color = "white";
+        okButton.style.border = "none";
+        okButton.style.cursor = "pointer";
+        okButton.onclick = function() {
+            document.body.removeChild(popup);
+            popups();
+            popups();
+        };
+
+        popup.appendChild(okButton);
+        document.body.appendChild(popup);
+    }
+
+    
+</script>
+
+{% endblock %}

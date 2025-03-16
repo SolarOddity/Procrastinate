@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}Shorts Page{% endblock %}
+
+{% block content %}
+<div class="video_container">
+    <div class="video_row">
+        <div class="video">
+            <h1>Video 1</h1>
+            <iframe src="https://youtube.com/embed/_oyymTpXCAs?si=ia8qGpbP-WZDKE7R" height="480" width="270" frameborder="0" allowfullscreen="true" scrolling="no"></iframe>
+        </div>
+
+        <div class="video">
+            <h1>Video 2</h1>
+            <iframe src="https://youtube.com/embed/4rBcu0aULyA?si=FhScXqwrweq6fymk" height="480" width="270" frameborder="0" allowfullscreen="true" scrolling="no"></iframe>
+        </div>
+
+        <div class="video">
+            <h1>Video 3</h1>
+            <iframe src="https://youtube.com/embed/q-GJ_vLIZaM?si=jBs3igH6ashkApIB" height="480" width="270" frameborder="0" allowfullscreen="true" scrolling="no"></iframe>
+        </div>
+    </div>
+
+    <div class="video_row">
+        <div class="video">
+            <h1>Video 4</h1>
+            <iframe src="https://youtube.com/embed/Bhe1U4iV0D0?si=Y1_RsWRwHj7JvvxC" height="480" width="270" frameborder="0" allowfullscreen="true" scrolling="no"></iframe>
+        </div>
+
+        <div class="video">
+            <h1>Video 5</h1>
+            <iframe src="https://youtube.com/embed/3LjudNCN9Ys?si=0fjEROiSmQDft4Ch" height="480" width="270" frameborder="0" allowfullscreen="true" scrolling="no"></iframe>
+        </div>
+
+        <div class="video">
+            <h1>Video 6</h1>
+            <iframe src="https://youtube.com/embed/bxvw_FYrkzA?si=cxzZuG394L1QJ7Nv" height="480" width="270" frameborder="0" allowfullscreen="true" scrolling="no"></iframe>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        overflow-y: auto; /* Enables vertical scrolling */
+        height: 100vh;
+        margin: 0;
+    }
+
+    .video_container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 30px; /* Space between rows */
+        padding: 20px;
+        overflow-y: auto;
+        max-height: 100vh;
+    }
+
+    .video_row {
+        display: flex;
+        justify-content: center;
+        gap: 20px; /* Space between videos */
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .video {
+        text-align: center;
+        flex: 1;
+        min-width: 270px;
+    }
+
+
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: #64cdf0;
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #2F80ED;
+    }
+
+    @media (max-width: 1200px) {
+        .video_row {
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .video {
+            width: 80%;
+        }
+    }
+</style>
+{% endblock %}
